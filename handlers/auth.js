@@ -1,7 +1,47 @@
 const db = require("../models/index");  //same as ../models/index.js
 const jwt = require("jsonwebtoken");
 
-exports.signin = function() {};
+
+exports.signin =async function(req, res, next) {
+	try{
+
+		let user = await db.User.findOne({
+			email: req.body.email
+		});
+		let {email, username, profileImageurl} = user;
+	
+		let isMatched = await user.comparePassword(req.body.password);
+		if(isMatched){
+			let token = jwt.sign({
+					email,
+					username,
+					profileImageurl
+				},
+				process.env.SECRET_KEY
+			);
+
+			return res.status(200).json({
+				email,
+				username,
+				profileImageurl,
+				token
+			});
+		}
+		else{
+			return next({
+				status:400,
+				message: "Invalid Username/Password."
+			})
+		}
+
+	}
+	catch(e){
+		return next({
+			status:400,
+			message: "Invalid Username/Password."
+		})
+	}
+};
 
 exports.signup = async function(req, res, next){
 	try{
