@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
 	}
 })
 
-userSchema.pre("save",async function(next){
+userSchema.pre("save",async function(next){  //hook
 	try {
 		if(!this.isModified("password")){
 			return next();
@@ -45,6 +45,6 @@ userSchema.method.comparePassword = async function(candidatePassword, next){
 	}
 }
 
-const User = model("User",userSchema);
+const User = mongoose.model("User",userSchema);
 
 module.exports = User;
