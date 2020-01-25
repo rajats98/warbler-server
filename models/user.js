@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
 	email:{
-		type:String,
+		type: String,
 		required:true,
 		unique: true
 	},
@@ -13,12 +13,18 @@ const userSchema = new mongoose.Schema({
 		unique:true
 	},
 	password:{
-		type:String,
+		type: String,
 		required:true
 	},
 	profileImageUrl:{
-		type:String
-	}
+		type: String
+	},
+	messages:[
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Message"
+		}
+	]
 })
 
 userSchema.pre("save",async function(next){  //hook
