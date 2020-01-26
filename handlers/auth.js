@@ -8,12 +8,12 @@ exports.signin =async function(req, res, next) {
 		let user = await db.User.findOne({
 			email: req.body.email
 		});
-		let {email, username, profileImageurl} = user;
+		let {id, email, username, profileImageurl} = user;
 	
 		let isMatched = await user.comparePassword(req.body.password);
 		if(isMatched){
 			let token = jwt.sign({
-					email,
+					id,
 					username,
 					profileImageurl
 				},
@@ -21,7 +21,7 @@ exports.signin =async function(req, res, next) {
 			);
 
 			return res.status(200).json({
-				email,
+				id,
 				username,
 				profileImageurl,
 				token
