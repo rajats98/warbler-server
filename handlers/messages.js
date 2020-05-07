@@ -5,7 +5,7 @@ exports.createMessage = async function (req, res, next) {
 	try{
 		let message = await db.Message.create({
 			text: req.body.text,
-			id: req.params.id
+			user: req.params.id
 		})
 		let foundUser = await db.User.findById(req.params.id);
 		foundUser.messages.push(message.id);
