@@ -25,7 +25,7 @@ app.use("/api/users/:id/messages",
 app.get("/api/messages", loginRequired, async function(req, res, next){
 	try{
 		let messages = await db.Message.find()
-			.sort({ createAt: "desc"})
+			.sort({ createdAt: "desc"})
 			.populate("user",{
 				username: true,
 				profileImageUrl: true
